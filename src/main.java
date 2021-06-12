@@ -10,11 +10,11 @@ public class main {
     Scanner sc = new Scanner(System.in);
     //Escaner para lineas
     Scanner sl = new Scanner(System.in);
-    int Max = 100;
+    int Max = 30;
     int ContadorCliente = 0;
     int ContadorPeli = 0;
     int ContadorPrestamo = 0;
-    
+    int ContadorCategorias = 0;
     //Arreglos para guardar los clientes
     String [] Cliente_Nombre = new String [Max];
     int [] Cliente_Id = new int[Max];
@@ -33,6 +33,8 @@ public class main {
     int[] Prestamo_IdPeli = new int[Max];
     int[] Prestamo_IdCliente = new int[Max];
     int[] Prestamo_Dias = new int[Max];
+    //Arreglos de utilidades:
+    String[] Categorias = new String[Max];
     //Constructor:
     public main(){
         ImpresionMenu1();
@@ -47,7 +49,7 @@ public class main {
         System.out.println("5) Ordenar las películas de forma ascendente respecto al nombre");
         System.out.println("6) Ingresar clientes nuevos");
         System.out.println("7) Mostrar clientes");
-        System.out.println("8) Reportes");
+        System.out.println("8) Menu de Reportes");
         System.out.println("9) Salir");
         System.out.println("Ingrese su opcion a elegir:");
         int opcion = sc.nextInt();
@@ -78,11 +80,14 @@ public class main {
                 MenuMostrarCliente();  
                 break;
             case 8:
-                  
+                MenuImpresoDeReporte();  
                 break;
-            case 9:
-                  
-                break;    
+            case 9:                  
+                break;
+            default : 
+                System.out.println("Opción seleccionada invalida vuelva a intentarlo:");
+                ImpresionMenu1();
+                break;                
         }
     }
     //Para el Menu del caso 1:
@@ -169,7 +174,6 @@ public class main {
                 System.out.println("Ya existe un cliente con ese id, porfavor seleccione otro.");
                 MenuCrearCliente();
             }
-    
     }
     //Para el menu del caso 7 Mostrando datos de clientes:
     public void MenuMostrarCliente(){
@@ -183,8 +187,71 @@ public class main {
         System.out.println("Presione Enter para regresar al menu");
         String a = sl.nextLine();
         ImpresionMenu1();    
-    
     }
+    //Para el menu del caso 8 el cual es el menu de reportes:
+    public void MenuImpresoDeReporte(){
+        System.out.println("\n==========Menu de Reportes===============");
+        System.out.println("\n1) Cantidad de películas por categoría");
+        System.out.println("2) Las películas de una categoría en específico");
+        System.out.println("3) cantidad de veces que se han prestado las peliculas");
+        System.out.println("4) Pelicula más prestada");
+        System.out.println("5) Pelicula menos prestada");
+        System.out.println("6) Regresar al menu principal");
+        System.out.println("Ingrese su opcion a elegir:");
+        int opcion = sc.nextInt();
+        EleccionMenuReporte(opcion);
+    }
+    public void EleccionMenuReporte(int Opci){
+            switch(Opci){
+            case 1:
+                CategoriasExistentes();
+                PeliculasPorCategoria(); 
+                break;
+            case 2:
+                CategoriasExistentes();
+                PeliculasSegunCategoria();  
+                break;
+            case 3:
+                  
+                break;
+            case 4:
+                  
+                break;    
+            case 5:
+                  
+                break;
+            case 6:
+                ImpresionMenu1();
+                break;
+            default : 
+                System.out.println("Opción seleccionada invalida vuelva a intentarlo:");
+                MenuImpresoDeReporte();
+                break;
+        }
+    }
+        //Encargado del Case 1 del menu de reportes el cual muestra cuantas peliculas hay según su categoria: 
+        public void PeliculasPorCategoria(){
+            for(int x = 0 ; x < ContadorCategorias ; x++){
+                int Cont=0;
+                for(int y = 0 ; y < ContadorPeli ; y++){                    
+                        if(Categorias[x].equals(Pelis_Categoria[y])){
+                            Cont++;                    
+                        }      
+                }
+            System.out.println("\nHay una cantidad de Peliculas de "+Categorias[x]+" total de:"+Cont);
+            }    
+        }
+        //Case 2 del menu de reportes muestra según las categorias cuales peliculas pertenecen a esta
+        public void PeliculasSegunCategoria(){
+            for(int x = 0 ; x < ContadorCategorias ; x++){
+                System.out.println("\nLas peliculas que perteneces dal genero "+Categorias[x]+" son:");
+                for(int y = 0 ; y < ContadorPeli ; y++){                    
+                        if(Categorias[x].equals(Pelis_Categoria[y])){
+                            System.out.println(Pelis_Nombre[y]);                    
+                        }      
+                }
+            }              
+        }
     //Metodos de busqueda de datos de los clientes:
     public int ClienteDisponible(int id){
         for(int x = 0 ; x < ContadorCliente ; x++){
@@ -210,6 +277,19 @@ public class main {
             }
         }
         return -1;
+    }
+    //Metodo de busqueda de categorias:
+    public void CategoriasExistentes(){
+        for(int x = 0 ; x < ContadorPeli ; x++){
+            for(int y = 0 ; y < ContadorCategorias ; y++){
+                if(Categorias[y].equals(Pelis_Categoria[x])){
+                //No haciendo nada si encuentra categorias iguales    
+                }else{
+                Categorias[ContadorCategorias] = Pelis_Categoria[x];
+                ContadorCategorias++;
+                }
+            }
+        }
     }    
     //Metodos de agregación de datos
     public void AgregarPrestamo(int IdCliente, int IdPeli, int Dias, int PosCliente,int PosPeli){
