@@ -42,7 +42,7 @@ public class main {
         System.out.println("\n==========Menu Principal===============");
         System.out.println("\n1) Prestamos de peliculas");
         System.out.println("2) Devolución de películas");
-        System.out.println("3) Mostrar las películas");
+        System.out.println("3) Mostrar  datos de las películas");
         System.out.println("4) Ingresar nueva película");
         System.out.println("5) Ordenar las películas de forma ascendente respecto al nombre");
         System.out.println("6) Ingresar clientes nuevos");
@@ -63,7 +63,7 @@ public class main {
                   
                 break;
             case 3:
-                  
+                MenuMostrarPelis();  
                 break;
             case 4:
                 MenuCrearPeli();  
@@ -89,7 +89,7 @@ public class main {
     public void MenuPrestamoPeli(){
         System.out.println("\n==========Menu de Prestamo===============");
         System.out.println("Listado de peliculas:");
-        System.out.println("Nombre   |   Id");
+        System.out.println("Nombre|Id");
             for(int x = 0 ; x < ContadorPeli ; x++){
                 if(Pelis_Disponible[x]){
                     System.out.println(Pelis_Nombre[x]+" | "+Pelis_Id[x]);
@@ -119,6 +119,19 @@ public class main {
         System.out.println("El id ingresado no existe en la base de datos, porfavor compruebe si está correcto o intente con otro.");
         ImpresionMenu1();
         }
+    }
+    //Para el Menu de mostrar datos de peliculas del caso 3
+    public void MenuMostrarPelis(){        
+        System.out.println("\nLas peliculas dentro del sistema son:");
+        System.out.println("El formato de la información de la pelicula es:");
+        System.out.println("Id | Nombre | Año | Categoria | Disponible");
+           for(int x = 0 ; x < ContadorPeli ; x++){
+               System.out.println(Pelis_Id[x]+" | "+Pelis_Nombre[x]+" | " + Pelis_Fecha[x]+" | "+Pelis_Categoria[x]+" | "+PeliDisponible(Pelis_Disponible[x]));
+           }
+        System.out.println("\nEsas son todas las peliculas en el sistema");
+        System.out.println("Presione Enter para regresar al menu");
+        String a = sl.nextLine();
+        ImpresionMenu1();
     }
     //Para el menu del caso 4 creación de plis:
     public void MenuCrearPeli(){
@@ -196,6 +209,7 @@ public class main {
             ContadorPrestamo++;
             Cliente_PeliPres[PosCliente] = true;
             Pelis_Disponible[PosPeli] = false;
+            Pelis_VecesPrestadas[PosPeli]++;
             System.out.println("El prestamo se a agregado con exito");     
         }
     }
@@ -225,5 +239,12 @@ public class main {
             System.out.println("\nEl cliente se a agregado con exito");       
         }
     }
-    
+    //Metodos de Información
+    public String PeliDisponible(boolean a){
+        if(a){
+        return "Disponible";
+        }else{
+        return "No está Disponible";
+        }
+    }
 }
