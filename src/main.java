@@ -75,7 +75,7 @@ public class main {
                 MenuCrearCliente();  
                 break;
             case 7:
-                  
+                MenuMostrarCliente();  
                 break;
             case 8:
                   
@@ -171,7 +171,20 @@ public class main {
             }
     
     }
+    //Para el menu del caso 7 Mostrando datos de clientes:
+    public void MenuMostrarCliente(){
+        System.out.println("\nLos Clientes dentro del sistema son:");
+        System.out.println("El formato para mostrar la información de los clientes es:");
+        System.out.println("Id | Nombre | telefono | Tiene pelicula prestada");
+           for(int x = 0 ; x < ContadorCliente ; x++){
+               System.out.println(Cliente_Id[x]+" | "+Cliente_Nombre[x]+" | " + Cliente_Telefono[x]+" | "+Pelis_Categoria[x]+" | "+ClientePeliPrestada(Cliente_PeliPres[x]));
+           }
+        System.out.println("\nEstos son todos los cñientes en el sistema");
+        System.out.println("Presione Enter para regresar al menu");
+        String a = sl.nextLine();
+        ImpresionMenu1();    
     
+    }
     //Metodos de busqueda de datos de los clientes:
     public int ClienteDisponible(int id){
         for(int x = 0 ; x < ContadorCliente ; x++){
@@ -239,7 +252,7 @@ public class main {
             System.out.println("\nEl cliente se a agregado con exito");       
         }
     }
-    //Metodos de Información
+    //Metodos de cambios de Información
     public String PeliDisponible(boolean a){
         if(a){
         return "Disponible";
@@ -247,4 +260,11 @@ public class main {
         return "No está Disponible";
         }
     }
+    public String ClientePeliPrestada(boolean a){
+        if(a){
+        return "Si";
+        }else{
+        return "No";
+        }
+    }    
 }
