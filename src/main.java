@@ -8,8 +8,6 @@ public class main {
     main Inicio = new main();
     }
     Scanner sc = new Scanner(System.in);
-    //Escaner para lineas
-    Scanner sl = new Scanner(System.in);
     int Max = 30;
     int ContadorCliente = 0;
     int ContadorPeli = 0;
@@ -93,6 +91,7 @@ public class main {
     }
     //Para el Menu del caso 1:
     public void MenuPrestamoPeli(){
+        Scanner sl = new Scanner(System.in);
         if(ContadorPeli!=0&&ContadorCliente!=0){
         System.out.println("\n==========Menu de Prestamo===============");
         System.out.println("Listado de peliculas:");
@@ -111,12 +110,14 @@ public class main {
         }
     }
     public void MenuPrestamoPeli2(){
+        Scanner sl = new Scanner(System.in);
         System.out.println("Ingrese el id del cliente que rentará la pelicula:");
         int Op = sc.nextInt();
         //if que detectará si el id existe
-        if(ClienteDisponible(Op)!=-1){
+        if(ClienteDisponible(Op)!=-1){            
             //if que detectará si tiene una pelicula rentada
             if(ClienteDisponible(Op)!=-2){
+                if(PeliDisponible(Op)!=-2){
             System.out.println("Ingrese el id de la pelicula que rentará");
             int IdP = sc.nextInt();
             System.out.println("Ingrese los días de renta");
@@ -128,14 +129,23 @@ public class main {
             System.out.println("\nEl id del cliente ingresado ya tiene una pelicula rentada en estos momentos");
             System.out.println("Intente con otro id");
             MenuPrestamoPeli2();
-            }    
+            }
+            }else{
+            System.out.println("\nEl id del cliente ingresado ya tiene una pelicula rentada en estos momentos");
+            System.out.println("Intente con otra pelicula");
+            MenuPrestamoPeli2();
+            }
         }else{
         System.out.println("El id ingresado no existe en la base de datos, porfavor compruebe si está correcto o intente con otro.");
         ImpresionMenu1();
         }
+        System.out.println("Presione Enter para regresar al menu");
+        String a = sl.nextLine();
+        ImpresionMenu1();    
     }
     //Case 2 Menu principal: Devolución de peliculas:
     public void DevolucionDePeli(){
+        Scanner sl = new Scanner(System.in);
         if(ContadorPrestamo!=0){
         System.out.println("Todos los prestamos en el sistema son:");
         System.out.println("Nombre del cliente | Id del cliente | Nombre de la pelicula | Id de la pelicula ");            
@@ -161,6 +171,7 @@ public class main {
     }
     //Para el Menu de mostrar datos de peliculas del caso 3
     public void MenuMostrarPelis(){
+    Scanner sl = new Scanner(System.in);
     if(ContadorPeli!=0){
         System.out.println("\nLas peliculas dentro del sistema son:");
         System.out.println("El formato de la información de la pelicula es:");
@@ -181,6 +192,7 @@ public class main {
     }
     //Para el menu del caso 4 creación de plis:
     public void MenuCrearPeli(){
+        Scanner sl = new Scanner(System.in);
         System.out.println("\n============Menu de ingreso de pelicula===============");
         System.out.println("Ingrese el numero id que le asignara a la pelicula:");
         int Id = sc.nextInt();
@@ -202,6 +214,7 @@ public class main {
     
     //Para el menu del caso 6 creacion de cliente nuevo:
     public void MenuCrearCliente(){
+        Scanner sl = new Scanner(System.in);
         System.out.println("\n============Menu de ingreso de Cliente===============");
         System.out.println("Ingrese el numero id que le asignara al Cliente nuevo:");
         int Id = sc.nextInt();
@@ -220,6 +233,7 @@ public class main {
     }
     //Para el menu del caso 7 Mostrando datos de clientes:
     public void MenuMostrarCliente(){
+        Scanner sl = new Scanner(System.in);
         if(ContadorCliente!=0){
         System.out.println("\nLos Clientes dentro del sistema son:");
         System.out.println("El formato para mostrar la información de los clientes es:");
@@ -227,19 +241,20 @@ public class main {
            for(int x = 0 ; x < ContadorCliente ; x++){
                System.out.println(Cliente_Id[x]+" | "+Cliente_Nombre[x]+" | " + Cliente_Telefono[x]+" | "+ClientePeliPrestada(Cliente_PeliPres[x]));
            }
-        System.out.println("\nEstos son todos los clientes en el sistema");
-        System.out.println("Presione Enter para regresar al menu");
-        String a = sc.nextLine();
-        ImpresionMenu1();
         }else{
         System.out.println("\nNo hay clientes dentro del sistema.");
-        System.out.println("Presione Enter para regresar al menu");
+        System.out.println("\nPresione Enter para regresar al menu");
         String a = sl.nextLine();
         ImpresionMenu1();        
     }
+        System.out.println("\nEstos son todos los clientes en el sistema");
+        System.out.println("Presione Enter para regresar al menu");
+        String a = sl.nextLine();
+        ImpresionMenu1();    
     }
     //Para el menu del caso 8 el cual es el menu de reportes:
     public void MenuImpresoDeReporte(){
+    Scanner sl = new Scanner(System.in);
     if(ContadorPeli!=0){    
         System.out.println("\n==========Menu de Reportes===============");
         System.out.println("\n1) Cantidad de películas por categoría");
@@ -254,7 +269,7 @@ public class main {
         EleccionMenuReporte(opcion);
     }else{
         System.out.println("\nNo se pueden generar reportes sin peliculas dentro del sistema");
-        System.out.println("Presione Enter para regresar al menu");
+        System.out.println("\nPresione Enter para regresar al menu");
         String a = sl.nextLine();
         ImpresionMenu1();          
     }
@@ -298,6 +313,7 @@ public class main {
     }
         //Encargado del Case 1 del menu de reportes el cual muestra cuantas peliculas hay según su categoria: 
         public void PeliculasPorCategoria(){
+            Scanner sl = new Scanner(System.in);
             System.out.println(ContadorCategorias);
             for(int x = 0 ; x < ContadorCategorias; x++){
                 int Cont=0;
@@ -308,12 +324,13 @@ public class main {
                 }
             System.out.println("\nLa cantidad total de Peliculas de "+Categorias[x]+" es de: "+Cont);
             }
-            System.out.println("Presione Enter para regresar al menu");
+            System.out.println("\nPresione Enter para regresar al menu");
             String a = sl.nextLine();            
             MenuImpresoDeReporte();    
         }
         //Case 2 del menu de reportes muestra según las categorias cuales peliculas pertenecen a esta
         public void PeliculasSegunCategoria(){
+            Scanner sl = new Scanner(System.in);
             for(int x = 0 ; x < ContadorCategorias ; x++){
                 System.out.println("\nLas peliculas que perteneces al genero "+Categorias[x]+" son:");
                 for(int y = 0 ; y < ContadorPeli ; y++){                    
@@ -327,33 +344,41 @@ public class main {
             MenuImpresoDeReporte();
         }
         public void PeliculasCategoriaEspecifico(){
+            Scanner sl = new Scanner(System.in);
+            boolean llave = true;
             System.out.println("Escriba la categoria que desea buscar:\n(Recuerde que si no está igual que en el sistema no encontrará peliculas iguales)");
             String cat = sl.nextLine();
             System.out.println("\nLas peliculas que perteneces al genero "+cat+" son:");
                 for(int x = 0 ; x < ContadorPeli ; x++){                                            
                     if(Pelis_Categoria[x].equals(cat)){
-                        System.out.println(Pelis_Nombre[x]);                    
+                        System.out.println(Pelis_Nombre[x]);
+                        llave = false;
                     }      
                 }
-            System.out.println("Presione Enter para regresar al menu");
+            if(llave){
+            System.out.println("No se encontró ninguna pelicula que pertenezca a la categoria "+cat);
+            }    
+            System.out.println("\nPresione Enter para regresar al menu");
             String a = sl.nextLine();            
             MenuImpresoDeReporte();    
         }
         //Case 3 del menu de reportes: Cantidad de veces que se a prestado las peliculas.
         public void MostrarVecesPrestada(){
+        Scanner sl = new Scanner(System.in);   
         System.out.println("\nEl numero de veces que se han prestado las peliculas dentro del sistema son:");
-        System.out.println("El formato de la información es:");
+        System.out.println("El formato de la información es");
         System.out.println("Nombre de la pelicula | Veces prestada");
            for(int x = 0 ; x < ContadorPeli ; x++){
                System.out.println(Pelis_Nombre[x]+" | " + Pelis_VecesPrestadas[x]);
            }
         System.out.println("\nEsas son todas las peliculas en el sistema");
-        System.out.println("Presione Enter para regresar al menu");
+        System.out.println("\nPresione Enter para regresar al menu");
         String a = sl.nextLine();
         MenuImpresoDeReporte();
         }
         //case 4 del menu de reportes: Buscar la pelicula más prestada
         public void PeliMasPrestada(){
+        Scanner sl = new Scanner(System.in);    
         int IndiceLaMas = 0;
         int LaMas = 0;
             for(int x = 0 ; x < ContadorPeli ; x++){
@@ -363,22 +388,23 @@ public class main {
                 }                   
             }
         System.out.println("La Pelicula más prestada es:" + Pelis_Nombre[IndiceLaMas]);
-        System.out.println("Presione Enter para regresar al menu");
+        System.out.println("\nPresione Enter para regresar al menu");
         String a = sl.nextLine();            
         MenuImpresoDeReporte();
         }
         //Case 5 del menu de reportes: la peliculas menos prestada
         public void PeliMenosPrestada(){
+        Scanner sl = new Scanner(System.in);    
         int IndiceLaMenos = 0;
-        int LaMenos = 0;
+        int LaMenos = 100;
             for(int x = 0 ; x < ContadorPeli ; x++){
                 if(LaMenos>Pelis_VecesPrestadas[x]){
                     LaMenos=Pelis_VecesPrestadas[x];
                     IndiceLaMenos = x;
                 }                   
             }
-        System.out.println("La Pelicula más prestada es:" + Pelis_Nombre[IndiceLaMenos]); 
-        System.out.println("Presione Enter para regresar al menu");
+        System.out.println("La Pelicula menos prestada es:" + Pelis_Nombre[IndiceLaMenos]); 
+        System.out.println("\nPresione Enter para regresar al menu");
         String a = sl.nextLine();            
         MenuImpresoDeReporte();
         }
@@ -430,7 +456,6 @@ public class main {
         boolean llave = false;
         for(int x = 0 ; x < ContadorPeli ; x++){
             for(int y = 0 ; y < ContadorCategorias ; y++){
-                 System.out.println("Cuenta categorias"); 
                  if(!(Pelis_Categoria[x].equals(Categorias[y]))){
                     llave = true; 
                      for(int i = 0 ; i < ContadorCategorias ; i++){
@@ -439,17 +464,12 @@ public class main {
                         }
                      }
                 if(llave){
-                System.out.println(Categorias[y]+" agg cat "+Pelis_Categoria[x]); 
                 Categorias[ContadorCategorias] = Pelis_Categoria[x];
-                System.out.println(Categorias[ContadorCategorias]);
                 ContadorCategorias++;
                 }     
             }
                 //No haciendo nada si encuentra categorias iguales                
             }
-        }
-        for(int y = 0 ; y < ContadorCategorias ; y++){
-        System.out.println(Categorias[y]);
         }
     }    
     //Metodos de agregación de datos
@@ -502,12 +522,10 @@ public class main {
     //Metodos de devolución/eliminación.
     public void DevolverPelicula(int IdP, int IdC){
         for(int x = 0 ; x < ContadorPrestamo ; x++){
-           System.out.println("Contador Prestamo");
             if(IdP==Prestamo_IdPeli[x]){
-                System.out.println("Encontró la peli");
+                if(IdC==Prestamo_IdCliente[x]){
                 //con esto borraremos la devolución
                 for (int i = x; i < ContadorPrestamo; i++) {
-                    System.out.println("Elimino ciclo");
                     Prestamo_IdPeli[i] = Prestamo_IdPeli[i+1];
                     Prestamo_IdCliente[i] = Prestamo_IdCliente[i+1];
                     Prestamo_Dias[i] = Prestamo_Dias[i+1];
@@ -515,8 +533,12 @@ public class main {
                     Pelis_Disponible[PeliPorId(IdP)] = true;
                     System.out.println("\nSe a devuelto la pelicula con exito"); 
                 }
+                ContadorPrestamo--;
+                }else{
+                System.out.println("\nNo existe un prestamo con ese id de pelicula y cliente, porfavor revise la información");     
+                }
             }else{
-            System.out.println("\nNo existe un prestamo concatenados a los id, porfavor revise la información"); 
+            System.out.println("\nNo existe un prestamo con ese id de pelicula y cliente, porfavor revise la información"); 
             }
         }
     }
