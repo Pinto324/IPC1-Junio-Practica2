@@ -13,6 +13,7 @@ public class main {
     int ContadorPeli = 0;
     int ContadorPrestamo = 0;
     int ContadorCategorias = 0;
+    int ContadorOrden = 0;
     //Arreglos para guardar los clientes
     String [] Cliente_Nombre = new String [Max];
     int [] Cliente_Id = new int[Max];
@@ -26,11 +27,12 @@ public class main {
     String[] Pelis_Categoria = new String[Max];
     boolean[] Pelis_Disponible = new boolean[Max];
     int[] Pelis_VecesPrestadas = new int[Max];
-    
+   
     //Arreglos para guardar los prestamos
     int[] Prestamo_IdPeli = new int[Max];
     int[] Prestamo_IdCliente = new int[Max];
     int[] Prestamo_Dias = new int[Max];
+    
     //Arreglos de utilidades:
     String[] Categorias = new String[Max];
     //Constructor:
@@ -39,7 +41,8 @@ public class main {
     }
     //Metodos de Muestra de menus
     public void ImpresionMenu1(){
-        System.out.println("\n============Menu Principal=================");
+        Scanner sx = new Scanner(System.in);
+        System.out.println("\n======================Menu Principal======================");
         System.out.println("\n1) Prestamos de peliculas");
         System.out.println("2) Devolución de películas");
         System.out.println("3) Mostrar  datos de las películas");
@@ -50,8 +53,8 @@ public class main {
         System.out.println("8) Menu de Reportes");
         System.out.println("9) Salir");
         System.out.println("Ingrese su opcion a elegir:");
-        int opcion = sc.nextInt();
-        System.out.println("====================================================");
+        int opcion = sx.nextInt();
+        System.out.println("============================================================");
         EleccionDelMenu1(opcion);
     }
     //
@@ -70,7 +73,7 @@ public class main {
                 MenuCrearPeli();  
                 break;    
             case 5:
-                  
+                Ordenar();  
                 break;
             case 6:
                 MenuCrearCliente();  
@@ -81,7 +84,7 @@ public class main {
             case 8:
                 MenuImpresoDeReporte();  
                 break;
-            case 9:                  
+            case 9:
                 break;
             default : 
                 System.out.println("Opción seleccionada invalida vuelva a intentarlo:");
@@ -93,12 +96,12 @@ public class main {
     public void MenuPrestamoPeli(){
         Scanner sl = new Scanner(System.in);
         if(ContadorPeli!=0&&ContadorCliente!=0){
-        System.out.println("\n==========Menu de Prestamo===============");
-        System.out.println("Listado de peliculas:");
-        System.out.println("Nombre|Id");
+        System.out.println("\n==========================Menu de Prestamo===========================");
+        System.out.println("Listado de peliculas:"+"\t\t\tListado de Clientes:");
+        System.out.println("Id | Nombre de pelicula\t\t\tId | Nombre del cliente");
             for(int x = 0 ; x < ContadorPeli ; x++){
                 if(Pelis_Disponible[x]){
-                    System.out.println(Pelis_Nombre[x]+" | "+Pelis_Id[x]);
+                    System.out.println(Pelis_Id[x]+" | "+Pelis_Nombre[x]+"\t\t\t\t\t"+Cliente_Id[x]+" | "+Cliente_Nombre[x]);
                 }
             }
         MenuPrestamoPeli2(); 
@@ -123,7 +126,7 @@ public class main {
             System.out.println("Ingrese los días de renta");
             int Dias = sc.nextInt();
             AgregarPrestamo(Op,IdP,Dias,ClienteDisponible(Op),PeliDisponible(IdP));
-            System.out.println("====================================================");
+            System.out.println("=================================================================");
             ImpresionMenu1();
             }else{
             System.out.println("\nEl id del cliente ingresado ya tiene una pelicula rentada en estos momentos");
@@ -147,17 +150,19 @@ public class main {
     public void DevolucionDePeli(){
         Scanner sl = new Scanner(System.in);
         if(ContadorPrestamo!=0){
+        System.out.println("\n==========================Menu de Devolución===========================");    
         System.out.println("Todos los prestamos en el sistema son:");
-        System.out.println("Nombre del cliente | Id del cliente | Nombre de la pelicula | Id de la pelicula ");            
+        System.out.println("Listado de Clientes prestadores:"+"\t\t\tListado de peliculas prestadas:");
+        System.out.println("Id |Nombre del cliente \t\t\tId | Nombre de pelicula");            
                 for(int x = 0 ; x < ContadorPrestamo ; x++){
-                    System.out.println(NombreDeClienteID(Prestamo_IdCliente[x])+" | "+Prestamo_IdCliente[x]+" | "+NombreDePeliculaID(Prestamo_IdPeli[x])+" | "+Prestamo_IdPeli[x]);
+                    System.out.println(NombreDeClienteID(Prestamo_IdCliente[x])+" | "+Prestamo_IdCliente[x]+"\t\t\t\t\t\t"+NombreDePeliculaID(Prestamo_IdPeli[x])+" | "+Prestamo_IdPeli[x]);
                 }
-                System.out.println("Escriba el Id de la pelicula que se devolverá:"); 
-                int IdP = sc.nextInt();
                 System.out.println("Escriba el Id del cliente que devolverá la pelicula:"); 
-                int IdC = sl.nextInt();
-                System.out.println(IdP+ " / "+IdC);
+                int IdC = sc.nextInt();
+                System.out.println("Escriba el Id de la pelicula que se devolverá:"); 
+                int IdP = sl.nextInt();
                 DevolverPelicula(IdP, IdC);
+                System.out.println("\n===============================================================");
                 System.out.println("Presione Enter para regresar al menu");
                 String a = sc.nextLine();        
                 ImpresionMenu1();
@@ -442,6 +447,7 @@ public class main {
         }
         return -1;
     }
+    
     public int PeliPorId(int id){
         for(int x = 0 ; x < ContadorPeli ; x++){
             if(Pelis_Id[x]==id){
@@ -449,7 +455,17 @@ public class main {
             }
         }
         return -1;
+    }
+
+    public int PeliPorNombre(String No){
+        for(int x = 0 ; x < ContadorPeli ; x++){
+            if(Pelis_Nombre[x].equals(No)){
+                return x;
+            }
+        }
+        return -1;
     }    
+    
     //Metodo de busqueda de categorias:
     public void CategoriasExistentes(){
         AgregarCategoria();
@@ -467,8 +483,7 @@ public class main {
                 Categorias[ContadorCategorias] = Pelis_Categoria[x];
                 ContadorCategorias++;
                 }     
-            }
-                //No haciendo nada si encuentra categorias iguales                
+                }             
             }
         }
     }    
@@ -519,6 +534,57 @@ public class main {
         ContadorCategorias++;
         }
     }
+    //Metodo de ordenación de arreglo
+    public void Ordenar(){
+    Scanner sl = new Scanner(System.in);
+    String AuxN;
+    int AuxId;
+    String AuxCat;
+    int AuxFecha;
+    boolean AuxD;
+    int AuxP;
+        if (ContadorPeli != 0) {
+            for (int i = 0; i < ContadorPeli - 1; i++) { 
+                for (int j = i + 1; j < ContadorPeli; j++) {
+                    if (Pelis_Nombre[i].compareTo(Pelis_Nombre[j]) > 0) {
+                        AuxN = Pelis_Nombre[i];
+                        Pelis_Nombre[i] = Pelis_Nombre[j];
+                        Pelis_Nombre[j] = AuxN;
+                        AuxId = Pelis_Id[i];
+                        Pelis_Id[i] = Pelis_Id[j];
+                        Pelis_Id[j] = AuxId;
+                        AuxCat = Pelis_Categoria[i];
+                        Pelis_Categoria[i] = Pelis_Categoria[j];
+                        Pelis_Categoria[j] = AuxCat;
+                        AuxFecha = Pelis_Fecha[i];
+                        Pelis_Fecha[i] = Pelis_Fecha[j];
+                        Pelis_Fecha[j] = AuxFecha;
+                        AuxD = Pelis_Disponible[i];
+                        Pelis_Disponible[i] = Pelis_Disponible[j];
+                        Pelis_Disponible[j] = AuxD;        
+                        AuxP = Pelis_VecesPrestadas[i];
+                        Pelis_VecesPrestadas[i] = Pelis_VecesPrestadas[j];
+                        Pelis_VecesPrestadas[j] = AuxP;                   
+                    }
+                }
+            }
+            for (int i = 0; i < Max; i++) { 
+                if (Pelis_Nombre[i] == null) {
+                    continue;
+                }
+                System.out.println("Se ordenaron las peliculas de manera correcta");
+                System.out.println("\nPresione Enter para regresar al menu");
+                String a = sl.nextLine();            
+                ImpresionMenu1();
+            }
+            System.out.println("");
+        } else {
+            System.out.println("* Aun no hay registro de peliculas *\n");
+            System.out.println("\nPresione Enter para regresar al menu");
+            String a = sl.nextLine();            
+            ImpresionMenu1();
+        }
+    }
     //Metodos de devolución/eliminación.
     public void DevolverPelicula(int IdP, int IdC){
         for(int x = 0 ; x < ContadorPrestamo ; x++){
@@ -541,7 +607,7 @@ public class main {
             System.out.println("\nNo existe un prestamo con ese id de pelicula y cliente, porfavor revise la información"); 
             }
         }
-    }
+    }   
     //Metodos de cambios de Información
     public String PeliDisponible(boolean a){
         if(a){
