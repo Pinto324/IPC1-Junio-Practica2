@@ -97,11 +97,18 @@ public class main {
         Scanner sl = new Scanner(System.in);
         if(ContadorPeli!=0&&ContadorCliente!=0){
         System.out.println("\n==========================Menu de Prestamo===========================");
-        System.out.println("Listado de peliculas:"+"\t\t\tListado de Clientes:");
-        System.out.println("Id | Nombre de pelicula\t\t\tId | Nombre del cliente");
+        System.out.println("Listado de peliculas:");
+        System.out.println("Id | Nombre de pelicula");
             for(int x = 0 ; x < ContadorPeli ; x++){
                 if(Pelis_Disponible[x]){
-                    System.out.println(Pelis_Id[x]+" | "+Pelis_Nombre[x]+"\t\t\t\t\t"+Cliente_Id[x]+" | "+Cliente_Nombre[x]);
+                    System.out.println(Pelis_Id[x]+" | "+Pelis_Nombre[x]);
+                }
+            }
+        System.out.println("Listado de Clientes:");
+        System.out.println("Id | Nombre del cliente");    
+            for(int x = 0 ; x < ContadorCliente ; x++){
+                if(!(Cliente_PeliPres[x])){
+                    System.out.println(+Cliente_Id[x]+" | "+Cliente_Nombre[x]);
                 }
             }
         MenuPrestamoPeli2(); 
@@ -155,7 +162,7 @@ public class main {
         System.out.println("Listado de Clientes prestadores:"+"\t\t\tListado de peliculas prestadas:");
         System.out.println("Id |Nombre del cliente \t\t\tId | Nombre de pelicula");            
                 for(int x = 0 ; x < ContadorPrestamo ; x++){
-                    System.out.println(NombreDeClienteID(Prestamo_IdCliente[x])+" | "+Prestamo_IdCliente[x]+"\t\t\t\t\t\t"+NombreDePeliculaID(Prestamo_IdPeli[x])+" | "+Prestamo_IdPeli[x]);
+                    System.out.println(Prestamo_IdCliente[x]+" | "+NombreDeClienteID(Prestamo_IdCliente[x])+"\t\t\t\t\t\t"+Prestamo_IdPeli[x]+" | "+NombreDePeliculaID(Prestamo_IdPeli[x]));
                 }
                 System.out.println("Escriba el Id del cliente que devolverá la pelicula:"); 
                 int IdC = sc.nextInt();
@@ -579,7 +586,7 @@ public class main {
             }
             System.out.println("");
         } else {
-            System.out.println("* Aun no hay registro de peliculas *\n");
+            System.out.println("No hay peliculas dentro del sistema, porfavor ingrese alguna\n");
             System.out.println("\nPresione Enter para regresar al menu");
             String a = sl.nextLine();            
             ImpresionMenu1();
